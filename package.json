@@ -11,6 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^26.0.0",
+    "eslint-config-love": "^154.0.0",
     "git-commit-msg-linter": "^5.0.8",
     "typescript": "^6.0.3"
   }
