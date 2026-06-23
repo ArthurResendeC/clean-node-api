@@ -1,21 +1,33 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- At this point the implementation is not complete */
+import { MissingParamError } from '../errors/mising-param.error';
+import { badRequest } from '../helpers/http-helper';
+import type { Controller } from '../protocols/controller';
+import type { HttpRequest, HttpResponse } from '../protocols/http';
 
-/* eslint-disable @typescript-eslint/no-unsafe-member-access -- At this point the implementation is not complete */
+export type SignUpRequestBody = {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+};
 
-export class SignUpController {
-  handle(httpRequest: any): any {
-    if (!httpRequest.body.name) {
-      return {
-        body: new Error('Missing param: name'),
-        statusCode: 400,
-      };
+export class SignUpController implements Controller<SignUpRequestBody> {
+  handle(httpRequest: HttpRequest<SignUpRequestBody>): HttpResponse {
+    const requiredFields: Array<keyof SignUpRequestBody> = [
+      'name',
+      'email',
+      'password',
+      'passwordConfirmation',
+    ];
+    for (const field of requiredFields) {
+      if (!httpRequest.body?.[field]) {
+        return badRequest(new MissingParamError(field));
+      }
     }
-
-    if (!httpRequest.body.email) {
-      return {
-        body: new Error('Missing param: email'),
-        statusCode: 400,
-      };
-    }
+    return {
+      body: {
+        message: 'Error',
+      },
+      statusCode: 200,
+    };
   }
 }
