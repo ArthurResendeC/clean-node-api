@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment -- At this point the implementation is not complete */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access -- At this point the implementation is not complete */
+
 import { SignUpController } from "./signup";
 
 describe('SignUp Controller', () => {
@@ -14,5 +17,6 @@ describe('SignUp Controller', () => {
     }
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new Error('Missing param: name'))
   })
 });
